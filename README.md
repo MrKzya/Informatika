@@ -90,13 +90,13 @@ I = stereo/mono * f * i * t
 
 Задание №8
 ```python
-from itertools import *
-
 c = 0
-for x in product("БЛАБЛА", repeat=5):  # или permutations("БЛАБЛА", repeat=5)
-    if x.count("Б") == 1:
-        c += 1
-print(c)
+for x in product("АЕКНТЦ", repeat=5):
+    c += 1
+    x = "".join(x)
+    if c % 2 == 0 and x[0] not in "АЕК" and x.count("Ц") >= 2:
+        print(c)
+        break
 ```
 
 Задание №9
@@ -178,7 +178,7 @@ for x in alp:
     if number % 14 == 0:
         print(x, number // 14)
         
-# Параметр в выражении и количство нулей 
+# Параметр в выражении и количество нулей 
 def zeros_c(n):
     count = 0
     while n > 0:
@@ -252,7 +252,24 @@ for A in range(1000):
 
 Задание №16
 ```python
-#Чаще всего не запустится просто, анлак
+#Через динамику:
+f = {}
+for n in range(3300):
+    if n == 1:
+        f[n] = 1
+    if n > 1:
+        f[n] = n * f[n-1]
+print((f[3238]//2 + f[3237]) // f[3236])
+
+# Ручками 
+Мы должный представить все через f[3236], чтобы потом подставить в выражение, где само f[3236] сократится
+f[3237] = 3237 *  f[3236]
+f[3238] = 3238 *  f[3237] = 3238 * 3237 *  f[3236]
+Подставляем: 
+(3238 * 3237 *  f[3236] // 2 + 3237 *  f[3236]) // f[3236] =
+= (3238 * 3237 // 2 +  3237) = 5243940 
+
+# Рекурсия может просто не запустится при больших числах
 from sys import setrecursionlimit
 setrecursionlimit(10000)
 
@@ -263,15 +280,6 @@ def F(n):
         return n * F(n - 1)
 
 print(F(2023) // F(2020))
-
-#Через динамику:
-f = {}
-for n in range(250000):
-    if n < 10:
-        f[n] = 1
-    if n >= 10:
-        f[n] = (n + 3) * f[n - 3]
-print((f[247563] // 519 - 477 * f[247560]) // f[247557])
 ```
 
 Задание №17
@@ -308,7 +316,7 @@ def f(s, m):
     if m == 0: 
         return 0
     h = [f(s + 1, m - 1), f(s * 2, m - 1)]
-    return any(h) if m % 2 != 0 else all(h)
+    return any(h) if m % 2 != 0 else all(h) # только в 19 при неудачном комментируем весь if
 print('19', [s for s in range(1, 26) if f(s, 2)])
 print('20', [s for s in range(1, 26) if not f(s, 1) and f(s, 3)])
 print('21', [s for s in range(1, 26) if not f(s, 2) and f(s, 4)])
@@ -320,21 +328,32 @@ def f2(a, b, m):
     if m == 0:
         return 0
     h = [f2(a + 1, b, m - 1), f2(a, b + 1, m - 1), f2(a * 2, b, m - 1), f2(a, b * 2, m - 1)]
-    return any(h) if m % 2 != 0 else all(h)
+    return any(h) if m % 2 != 0 else all(h)  # только в 19 при неудачном комментируем весь if
 print('19', [s for s in range(1, 32) if f2(2, s, 2)])
 print('20', [s for s in range(1, 32) if not f2(2, s, 1) and f2(2, s, 3)])
 print('21', [s for s in range(1, 32) if not f2(2, s, 2) and f2(2, s, 4)])
 ```
 
+Задание №22
+```
+# Не душный тип
+Столбец ID процесса --> Данные --> Текст по столбцам --> с разделителями --> точка с запятой --> общий
+Сколько образовалось столбцов, столько и добавляем справа + последние два start и finish
+В первую ячейку после ID записываем =ЕСЛИ(C2 = 0; 0; ВПР(C2; $A:$J; 10; 0)) и растягиваем горизонтально до start и fin 
+В start пишем =МАКС(F2:H2)+1 (Диапазон выше + 1)
+В finish пишем =МАКС(F2:H2)+B2 (Диапазон выше + время исполнения)
+
+# Душный тип
+
+```
+
 Задание №25
 ```python
-# Маска
-from fnmatch import *
-
-for x in range(0, 10**8, 317):
-    if fnmatch(str(x), "12??1*56"):
-        print(x, x // 317)
-        
 # Делители
 
+# Маска
+# from fnmatch import *
+# for x in range(0, 10**8, 317):
+#    if fnmatch(str(x), "12??1*56"):
+#        print(x, x // 317)
 ```
