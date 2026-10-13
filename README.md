@@ -150,12 +150,12 @@ I = k * i
 
 Задание №13
 ```python
-def f(x, y):
-    if x > y or x == 6 or x == 12:
+def f(s, e):
+    if s > e or s == 6 or s == 12:
         return 0
-    if x == y:
+    if s == e:
         return 1
-    return f(x + 1, y) + f(x * 2, y) + f(x + 3, y)
+    return f(s + 1, e) + f(s * 2, e) + f(s + 3, e)
 print(f(3, 16))
 ```
 
