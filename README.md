@@ -296,6 +296,10 @@ for i in range(len(arr) - 1):
     if arr[i] % min_17 == 0 or arr[i + 1] % min_17 == 0:
         pairs.append(arr[i] + arr[i + 1])
 print(len(pairs), max(pairs))
+
+# Полезные штучки 
+count_5 = len([c for c in arr[i:i+3] if c % 5 == 0])
+if count_5 == 1 # 
 ```
 
 Задание №18
